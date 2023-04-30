@@ -24,7 +24,6 @@ const Calculator = () => {
       character !== "-" &&
       character !== "*"
     ) {
-      console.log("resetting.");
       setDisplay(character);
       setOutput(0);
       return;
@@ -41,7 +40,6 @@ const Calculator = () => {
     }
 
     let typeSafeDisplay = display.toString();
-    console.log("typeSafeDisplay", typeSafeDisplay);
 
     if (character === ".")
       for (let i = typeSafeDisplay.length - 1; i >= 0; i--) {
@@ -49,7 +47,6 @@ const Calculator = () => {
           setErrorDisplay(
             "You cannot have two decimal points within the same number. Not today."
           );
-          console.log("Found another dot!", typeSafeDisplay);
           return;
         }
         if (/^\D$/.test(typeSafeDisplay.charAt(i))) {
@@ -64,10 +61,6 @@ const Calculator = () => {
     ) {
       setErrorDisplay(
         "You cannot have other digits after 0 if the number starts with that."
-      );
-      console.log(
-        '"You cannot have other digits after 0 if the number starts with that."',
-        typeSafeDisplay
       );
       return;
     }
@@ -95,20 +88,12 @@ const Calculator = () => {
           )
         ) {
           setErrorDisplay("Inserting two consecutive non-digits? Nope.");
-          console.log(
-            '"Inserting two consecutive non-digits? Nope."',
-            typeSafeDisplay
-          );
           return;
         }
       }
     }
     if (/^[+-/*]$/.test(character) && typeSafeDisplay.length === 0) {
       setErrorDisplay("The expression cannot start with an operator.");
-      console.log(
-        '"The expression cannot start with an operator."',
-        typeSafeDisplay
-      );
       return;
     }
 
@@ -124,20 +109,17 @@ const Calculator = () => {
       /^\D$/.test(typeSafeDisplay.charAt(typeSafeDisplay.length - 1)) &&
       /^\D$/.test(typeSafeDisplay.charAt(typeSafeDisplay.length - 2))
     ) {
-      console.log("SPECIAL CASE!!!");
       setDisplay(
         newDisplay.slice(0, typeSafeDisplay.length - 2).concat(character)
       );
     } else {
       // Set new display
-      console.log("concatenating as usual");
       setDisplay(newDisplay.concat(character));
     }
   };
 
   const calculate = () => {
     if (typeof display !== "string") return;
-    console.log("result of", display, "is", eval(display));
     setDisplay(eval(display));
     setOutput(eval(display));
   };
